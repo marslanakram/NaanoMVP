@@ -1,0 +1,15 @@
+{
+    "version": 1,
+    "hooks": {
+      "beforeSubmitPrompt": [
+        {
+          "command": "powershell -NoProfile -ExecutionPolicy Bypass -File .cursor/hooks/capture_prompt.ps1"
+        }
+      ],
+      "afterAgentResponse": [
+        {
+          "command": "powershell -NoProfile -ExecutionPolicy Bypass -File .cursor/hooks/capture_response.ps1"
+        }
+      ]
+    }
+  }
