@@ -1,0 +1,77 @@
+@model CreatorsIndexViewModel
+@{
+    ViewData["Title"] = "Creators";
+}
+
+<section class="naano-page-header py-5">
+    <div class="container">
+        <h1 class="fw-bold">Creator Marketplace</h1>
+        <p class="text-muted mb-0">Browse @Model.Creators.Count creators and build your next campaign.</p>
+    </div>
+</section>
+
+<section class="py-4">
+    <div class="container">
+        <form method="get" asp-action="Index" class="naano-filter-bar mb-4">
+            <div class="row g-2 align-items-center">
+                <div class="col-lg-4 col-md-6">
+                    <div class="input-group">
+                        <span class="input-group-text bg-white border-end-0"><i class="bi bi-search"></i></span>
+                        <input type="text" name="search" value="@Model.Search" class="form-control border-start-0" placeholder="Search by name or category..." />
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-3 col-6">
+                    <select name="category" class="form-select" onchange="this.form.submit()">
+                        <option value="All">All Categories</option>
+                        @foreach (var cat in Model.Categories)
+                        {
+                            <option value="@cat" selected="@(Model.Category == cat)">@cat</option>
+                        }
+                    </select>
+                </div>
+                <div class="col-lg-2 col-md-3 col-6">
+                    <select name="platform" class="form-select" onchange="this.form.submit()">
+                        <option value="All">All Platforms</option>
+                        @foreach (var plat in Model.Platforms)
+                        {
+                            <option value="@plat" selected="@(Model.Platform == plat)">@plat</option>
+                        }
+                    </select>
+                </div>
+                <div class="col-lg-2 col-md-4 col-6">
+                    <select name="sortBy" class="form-select" onchange="this.form.submit()">
+                        <option value="followers_desc" selected="@(Model.SortBy == "followers_desc" || string.IsNullOrEmpty(Model.SortBy))">Followers: High to Low</option>
+                        <option value="followers_asc" selected="@(Model.SortBy == "followers_asc")">Followers: Low to High</option>
+                        <option value="engagement_desc" selected="@(Model.SortBy == "engagement_desc")">Engagement: High to Low</option>
+                        <option value="engagement_asc" selected="@(Model.SortBy == "engagement_asc")">Engagement: Low to High</option>
+                        <option value="price_desc" selected="@(Model.SortBy == "price_desc")">Price: High to Low</option>
+                        <option value="price_asc" selected="@(Model.SortBy == "price_asc")">Price: Low to High</option>
+                    </select>
+                </div>
+                <div class="col-lg-2 col-md-4 col-6">
+                    <button type="submit" class="btn naano-btn-primary w-100">Apply Filters</button>
+                </div>
+            </div>
+        </form>
+
+        @if (!Model.Creators.Any())
+        {
+            <div class="text-center py-5">
+                <i class="bi bi-search fs-1 text-muted"></i>
+                <p class="text-muted mt-3">No creators match your filters. Try adjusting your search.</p>
+                <a class="btn naano-btn-outline" asp-action="Index">Reset Filters</a>
+            </div>
+        }
+        else
+        {
+            <div class="row g-4" id="creatorGrid">
+                @foreach (var creator in Model.Creators)
+                {
+                    <div class="col-xl-3 col-lg-4 col-md-6">
+                        <partial name="_CreatorCard" model="creator" />
+                    </div>
+                }
+            </div>
+        }
+    </div>
+</section>

@@ -1,31 +1,421 @@
-html {
-  font-size: 14px;
+:root {
+    --naano-primary: #6D28D9;
+    --naano-primary-dark: #5B21B6;
+    --naano-accent: #EC4899;
+    --naano-bg: #FAFAFC;
+    --naano-text: #1F2937;
+    --naano-muted: #6B7280;
+    --naano-border: #E9E7F5;
 }
 
-@media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
-}
-
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
-}
-
-html {
-  position: relative;
-  min-height: 100%;
+* {
+    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 }
 
 body {
-  margin-bottom: 60px;
+    background-color: var(--naano-bg);
+    color: var(--naano-text);
 }
 
-.form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
-  color: var(--bs-secondary-color);
-  text-align: end;
+/* Navbar */
+.naano-navbar {
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--naano-border);
+    padding: 0.85rem 0;
 }
 
-.form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
-  text-align: start;
+.naano-brand {
+    font-weight: 800;
+    font-size: 1.4rem;
+    color: var(--naano-text) !important;
+    text-decoration: none;
+}
+
+.naano-brand-mark {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 8px;
+    background: linear-gradient(135deg, var(--naano-primary), var(--naano-accent));
+    color: white;
+    margin-right: 4px;
+    font-size: 1rem;
+}
+
+.naano-navbar .nav-link {
+    color: var(--naano-text);
+    font-weight: 500;
+    padding: 0.4rem 0.85rem !important;
+}
+
+.naano-navbar .nav-link:hover {
+    color: var(--naano-primary);
+}
+
+/* Buttons */
+.naano-btn-primary {
+    background: linear-gradient(135deg, var(--naano-primary), var(--naano-accent));
+    border: none;
+    color: white !important;
+    font-weight: 600;
+    border-radius: 10px;
+    transition: transform .15s ease, box-shadow .15s ease;
+}
+
+.naano-btn-primary:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 8px 20px rgba(109, 40, 217, 0.25);
+    color: white;
+}
+
+.naano-btn-outline {
+    border: 1.5px solid var(--naano-border);
+    background: white;
+    color: var(--naano-text);
+    font-weight: 600;
+    border-radius: 10px;
+}
+
+.naano-btn-outline:hover {
+    border-color: var(--naano-primary);
+    color: var(--naano-primary);
+}
+
+/* Badges */
+.naano-badge-soft {
+    background: #F1EBFC;
+    color: var(--naano-primary-dark);
+    font-weight: 600;
+    padding: 0.45rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.75rem;
+}
+
+.naano-badge-outline {
+    background: white;
+    border: 1px solid var(--naano-border);
+    color: var(--naano-muted);
+    font-weight: 600;
+    padding: 0.4rem 0.7rem;
+    border-radius: 20px;
+    font-size: 0.72rem;
+}
+
+.naano-platform-badge {
+    background: #111827;
+    color: white;
+    font-weight: 600;
+    border-radius: 20px;
+    padding: 0.35rem 0.7rem;
+    font-size: 0.7rem;
+}
+
+/* Hero */
+.naano-hero {
+    background: radial-gradient(circle at top right, #F1EBFC 0%, var(--naano-bg) 55%);
+    padding-top: 2rem;
+}
+
+.naano-hero-title {
+    line-height: 1.1;
+}
+
+.naano-hero-visual {
+    position: relative;
+    height: 420px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.naano-hero-gradient-block {
+    width: 280px;
+    height: 280px;
+    border-radius: 32px;
+    background: linear-gradient(135deg, var(--naano-primary), var(--naano-accent));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 5rem;
+    color: rgba(255,255,255,0.85);
+    box-shadow: 0 30px 60px rgba(109, 40, 217, 0.25);
+}
+
+.naano-floating-card {
+    position: absolute;
+    background: white;
+    border-radius: 14px;
+    box-shadow: 0 12px 30px rgba(17, 24, 39, 0.12);
+    padding: 0.85rem 1.1rem;
+    font-size: 0.85rem;
+}
+
+.card-1 { top: 10px; left: 0; }
+.card-2 { bottom: 60px; left: -10px; }
+.card-3 { top: 40px; right: -10px; }
+
+/* Avatars */
+.naano-avatar {
+    width: 52px;
+    height: 52px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: 700;
+    font-size: 1.1rem;
+    flex-shrink: 0;
+}
+
+.naano-avatar-sm {
+    width: 38px;
+    height: 38px;
+    font-size: 0.85rem;
+    border-radius: 10px;
+}
+
+.naano-avatar-lg {
+    width: 96px;
+    height: 96px;
+    font-size: 2rem;
+    border-radius: 22px;
+}
+
+/* Stats section */
+.naano-stats-section {
+    background: white;
+    border-top: 1px solid var(--naano-border);
+    border-bottom: 1px solid var(--naano-border);
+}
+
+.naano-stat-card, .naano-summary-card {
+    background: white;
+    border: 1px solid var(--naano-border);
+    border-radius: 16px;
+    padding: 1.4rem 1rem;
+    height: 100%;
+}
+
+.naano-stat-icon {
+    font-size: 1.6rem;
+    color: var(--naano-primary);
+    margin-bottom: 0.5rem;
+    display: block;
+}
+
+.naano-stat-icon-sm {
+    font-size: 1.2rem;
+    color: var(--naano-primary);
+    margin-bottom: 0.35rem;
+    display: block;
+}
+
+/* Steps */
+.naano-step-card {
+    background: white;
+    border: 1px solid var(--naano-border);
+    border-radius: 18px;
+    padding: 1.75rem;
+    height: 100%;
+}
+
+.naano-step-number {
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, var(--naano-primary), var(--naano-accent));
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+}
+
+/* Featured / marketplace */
+.naano-featured-section {
+    background: var(--naano-bg);
+}
+
+.naano-creator-card {
+    border: 1px solid var(--naano-border);
+    border-radius: 18px;
+    transition: transform .15s ease, box-shadow .15s ease;
+    background: white;
+}
+
+.naano-creator-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 16px 32px rgba(17, 24, 39, 0.08);
+}
+
+.naano-creator-metrics {
+    background: var(--naano-bg);
+    border-radius: 12px;
+    padding: 0.6rem 0.2rem;
+}
+
+/* Filter bar */
+.naano-filter-bar {
+    background: white;
+    border: 1px solid var(--naano-border);
+    border-radius: 16px;
+    padding: 1rem;
+}
+
+/* Profile card */
+.naano-profile-card {
+    background: white;
+    border: 1px solid var(--naano-border);
+    border-radius: 18px;
+    padding: 1.75rem;
+}
+
+.naano-stat-block {
+    background: var(--naano-bg);
+    border-radius: 12px;
+    padding: 1rem 0.5rem;
+}
+
+.naano-back-link {
+    color: var(--naano-muted);
+    font-weight: 600;
+}
+
+.naano-back-link:hover {
+    color: var(--naano-primary);
+}
+
+/* Campaign pick rows */
+.naano-campaign-pick {
+    padding: 0.9rem 0;
+    border-bottom: 1px solid var(--naano-border);
+}
+
+.naano-campaign-pick:last-child {
+    border-bottom: none;
+}
+
+.naano-campaign-creator-row {
+    padding: 0.6rem 0;
+    border-bottom: 1px solid var(--naano-border);
+}
+
+.naano-campaign-creator-row:last-child {
+    border-bottom: none;
+}
+
+/* Creator select grid (campaign create) */
+.naano-creator-select-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 0.75rem;
+}
+
+.naano-creator-select-item {
+    border: 1.5px solid var(--naano-border);
+    border-radius: 12px;
+    padding: 0.75rem 1rem;
+    cursor: pointer;
+    display: block;
+    transition: border-color .15s ease, background .15s ease;
+}
+
+.naano-creator-select-item:hover {
+    border-color: var(--naano-primary);
+}
+
+.naano-creator-select-item.selected {
+    border-color: var(--naano-primary);
+    background: #F8F5FE;
+}
+
+/* Bar chart (dashboard) */
+.naano-bar-row {
+    display: grid;
+    grid-template-columns: 160px 1fr 90px;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 0.75rem;
+}
+
+.naano-bar-track {
+    background: var(--naano-bg);
+    border-radius: 8px;
+    height: 14px;
+    overflow: hidden;
+}
+
+.naano-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--naano-primary), var(--naano-accent));
+    border-radius: 8px;
+    transition: width .4s ease;
+}
+
+.naano-bar-value {
+    text-align: right;
+    font-weight: 600;
+    font-size: 0.85rem;
+}
+
+.naano-table thead {
+    background: var(--naano-bg);
+}
+
+.naano-table th {
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    color: var(--naano-muted);
+    font-weight: 700;
+    border-bottom: 1px solid var(--naano-border);
+}
+
+/* Final CTA + footer */
+.naano-final-cta {
+    background: linear-gradient(135deg, #F1EBFC, #FCE7F3);
+}
+
+.naano-footer {
+    background: white;
+    border-top: 1px solid var(--naano-border);
+}
+
+.naano-brand-footer {
+    font-size: 1.2rem;
+}
+
+.footer-heading {
+    font-weight: 700;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    color: var(--naano-muted);
+}
+
+.footer-links li {
+    margin-bottom: 0.5rem;
+}
+
+.footer-links a {
+    color: var(--naano-text);
+    text-decoration: none;
+    font-size: 0.92rem;
+}
+
+.footer-links a:hover {
+    color: var(--naano-primary);
+}
+
+.naano-page-header {
+    background: white;
+    border-bottom: 1px solid var(--naano-border);
+}
+
+@media (max-width: 768px) {
+    .naano-hero-visual { height: 300px; }
+    .naano-hero-gradient-block { width: 200px; height: 200px; font-size: 3.5rem; }
+    .naano-bar-row { grid-template-columns: 100px 1fr 70px; }
 }

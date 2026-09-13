@@ -1,0 +1,54 @@
+@model AddToCampaignViewModel
+@{
+    ViewData["Title"] = "Add to Campaign";
+}
+
+<section class="py-5">
+    <div class="container" style="max-width: 720px;">
+        <h1 class="fw-bold mb-1">Add @Model.Creator.Name to a Campaign</h1>
+        <p class="text-muted mb-4">Choose an existing campaign below, or create a brand new one for this creator.</p>
+
+        <div class="naano-profile-card mb-4 d-flex align-items-center gap-3">
+            <div class="naano-avatar" style="background: linear-gradient(135deg,#7C3AED,#EC4899);">
+                @(string.Join("", Model.Creator.Name.Split(' ', StringSplitOptions.RemoveEmptyEntries).Take(2).Select(p => p[0])).ToUpper())
+            </div>
+            <div>
+                <div class="fw-semibold">@Model.Creator.Name</div>
+                <div class="text-muted small">@Model.Creator.Username · @Model.Creator.Category</div>
+            </div>
+        </div>
+
+        @if (Model.ExistingCampaigns.Any())
+        {
+            <div class="naano-profile-card mb-4">
+                <h5 class="fw-semibold mb-3">Add to an existing campaign</h5>
+                @foreach (var campaign in Model.ExistingCampaigns)
+                {
+                    <form method="post" asp-action="AttachToExistingCampaign" class="naano-campaign-pick d-flex justify-content-between align-items-center flex-wrap gap-2">
+                        <input type="hidden" name="campaignId" value="@campaign.Id" />
+                        <input type="hidden" name="creatorId" value="@Model.Creator.Id" />
+                        <div>
+                            <div class="fw-semibold">@campaign.Name</div>
+                            <div class="text-muted small">@campaign.Objective · Budget $@campaign.Budget.ToString("N0") · <span class="badge naano-badge-outline">@campaign.Status</span></div>
+                        </div>
+                        <button type="submit" class="btn naano-btn-outline btn-sm">Select</button>
+                    </form>
+                }
+            </div>
+        }
+        else
+        {
+            <div class="alert alert-info">You don't have any campaigns yet. Create one below to get started.</div>
+        }
+
+        <div class="text-center mt-4">
+            <span class="text-muted">or</span>
+        </div>
+
+        <div class="text-center mt-3">
+            <a class="btn naano-btn-primary btn-lg px-4" asp-controller="Campaigns" asp-action="Create" asp-route-preselectedCreatorId="@Model.Creator.Id">
+                <i class="bi bi-plus-circle me-1"></i> Create a New Campaign
+            </a>
+        </div>
+    </div>
+</section>

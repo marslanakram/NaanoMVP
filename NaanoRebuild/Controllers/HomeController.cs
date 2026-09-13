@@ -1,31 +1,27 @@
-using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-using NaanoRebuild.Models;
+using NaanoMVP.Services;
 
-namespace NaanoRebuild.Controllers;
-
-public class HomeController : Controller
+namespace NaanoMVP.Controllers
 {
-    private readonly ILogger<HomeController> _logger;
-
-    public HomeController(ILogger<HomeController> logger)
+    public class HomeController : Controller
     {
-        _logger = logger;
-    }
+        private readonly ICreatorService _creatorService;
 
-    public IActionResult Index()
-    {
-        return View();
-    }
+        public HomeController(ICreatorService creatorService)
+        {
+            _creatorService = creatorService;
+        }
 
-    public IActionResult Privacy()
-    {
-        return View();
-    }
+        public IActionResult Index()
+        {
+            var featured = _creatorService.GetCreators(null, null, null, "engagement_desc").Take(4).ToList();
+            ViewBag.TotalCreators = _creatorService.GetTotalCreatorCount();
+            return View(featured);
+        }
 
-    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-    public IActionResult Error()
-    {
-        return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        public IActionResult Error()
+        {
+            return View();
+        }
     }
 }

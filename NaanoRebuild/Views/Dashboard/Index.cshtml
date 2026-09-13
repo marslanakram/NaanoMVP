@@ -1,0 +1,120 @@
+@model DashboardViewModel
+@{
+    ViewData["Title"] = "Dashboard";
+    var maxSpend = Model.Campaigns.Any() ? Model.Campaigns.Max(c => c.Spend) : 0m;
+}
+
+<section class="naano-page-header py-5">
+    <div class="container">
+        <h1 class="fw-bold">Dashboard</h1>
+        <p class="text-muted mb-0">A quick overview of your campaigns and performance.</p>
+    </div>
+</section>
+
+<section class="py-4">
+    <div class="container">
+        <div class="row g-3 mb-4">
+            <div class="col-lg-2 col-md-4 col-6">
+                <div class="naano-summary-card">
+                    <i class="bi bi-megaphone naano-stat-icon-sm"></i>
+                    <div class="fw-bold fs-4">@Model.TotalCampaigns</div>
+                    <div class="text-muted small">Total Campaigns</div>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-4 col-6">
+                <div class="naano-summary-card">
+                    <i class="bi bi-people naano-stat-icon-sm"></i>
+                    <div class="fw-bold fs-4">@Model.TotalCreators</div>
+                    <div class="text-muted small">Total Creators</div>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-4 col-6">
+                <div class="naano-summary-card">
+                    <i class="bi bi-eye naano-stat-icon-sm"></i>
+                    <div class="fw-bold fs-4">@Model.TotalImpressions.ToString("N0")</div>
+                    <div class="text-muted small">Impressions</div>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-4 col-6">
+                <div class="naano-summary-card">
+                    <i class="bi bi-cursor naano-stat-icon-sm"></i>
+                    <div class="fw-bold fs-4">@Model.TotalClicks.ToString("N0")</div>
+                    <div class="text-muted small">Clicks</div>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-4 col-6">
+                <div class="naano-summary-card">
+                    <i class="bi bi-person-check naano-stat-icon-sm"></i>
+                    <div class="fw-bold fs-4">@Model.TotalLeads.ToString("N0")</div>
+                    <div class="text-muted small">Leads</div>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-4 col-6">
+                <div class="naano-summary-card">
+                    <i class="bi bi-cash-coin naano-stat-icon-sm"></i>
+                    <div class="fw-bold fs-4">$@Model.TotalSpend.ToString("N0")</div>
+                    <div class="text-muted small">Total Spend</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="naano-profile-card mb-4">
+            <h5 class="fw-semibold mb-3">Spend by Campaign</h5>
+            @if (!Model.Campaigns.Any())
+            {
+                <p class="text-muted small mb-0">No campaigns yet. Create one from a creator's profile.</p>
+            }
+            else
+            {
+                <div class="naano-bar-chart">
+                    @foreach (var c in Model.Campaigns)
+                    {
+                        var pct = maxSpend > 0 ? (double)(c.Spend / maxSpend) * 100 : 0;
+                        <div class="naano-bar-row">
+                            <div class="naano-bar-label text-truncate" title="@c.Name">@c.Name</div>
+                            <div class="naano-bar-track">
+                                <div class="naano-bar-fill" style="width:@(pct.ToString("0.##"))%;"></div>
+                            </div>
+                            <div class="naano-bar-value">$@c.Spend.ToString("N0")</div>
+                        </div>
+                    }
+                </div>
+            }
+        </div>
+
+        <div class="naano-profile-card">
+            <h5 class="fw-semibold mb-3">All Campaigns</h5>
+            <div class="table-responsive">
+                <table class="table naano-table align-middle">
+                    <thead>
+                        <tr>
+                            <th>Campaign</th>
+                            <th>Status</th>
+                            <th>Budget</th>
+                            <th>Spend</th>
+                            <th>Creators</th>
+                            <th>Impressions</th>
+                            <th>Clicks</th>
+                            <th>Leads</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var c in Model.Campaigns)
+                        {
+                            <tr>
+                                <td><a asp-controller="Campaigns" asp-action="Details" asp-route-id="@c.CampaignId" class="fw-semibold text-decoration-none">@c.Name</a></td>
+                                <td><span class="badge naano-badge-outline">@c.Status</span></td>
+                                <td>$@c.Budget.ToString("N0")</td>
+                                <td>$@c.Spend.ToString("N0")</td>
+                                <td>@c.CreatorCount</td>
+                                <td>@c.Impressions.ToString("N0")</td>
+                                <td>@c.Clicks.ToString("N0")</td>
+                                <td>@c.Leads.ToString("N0")</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,81 @@
+@model Campaign
+@{
+    ViewData["Title"] = Model.Name;
+    var metrics = Model.CampaignMetrics;
+    var impressions = metrics.Sum(m => (int?)m.Impressions) ?? 0;
+    var clicks = metrics.Sum(m => (int?)m.Clicks) ?? 0;
+    var leads = metrics.Sum(m => (int?)m.Leads) ?? 0;
+    var spend = metrics.Sum(m => (decimal?)m.Spend) ?? 0m;
+}
+
+<section class="py-5">
+    <div class="container">
+        <a asp-controller="Dashboard" asp-action="Index" class="text-decoration-none naano-back-link mb-3 d-inline-block">
+            <i class="bi bi-arrow-left me-1"></i> Back to Dashboard
+        </a>
+
+        <div class="d-flex justify-content-between align-items-start flex-wrap gap-3 mb-4">
+            <div>
+                <h1 class="fw-bold mb-1">@Model.Name</h1>
+                <span class="badge naano-badge-outline">@Model.Status</span>
+                <span class="text-muted ms-2">Created @Model.CreatedAt.ToString("MMM d, yyyy")</span>
+            </div>
+            <div class="text-end">
+                <div class="text-muted small">Budget</div>
+                <div class="fw-bold fs-4">$@Model.Budget.ToString("N0")</div>
+            </div>
+        </div>
+
+        <div class="row g-3 mb-4">
+            <div class="col-md-3 col-6">
+                <div class="naano-summary-card"><div class="fw-bold fs-4">@impressions.ToString("N0")</div><div class="text-muted small">Impressions</div></div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="naano-summary-card"><div class="fw-bold fs-4">@clicks.ToString("N0")</div><div class="text-muted small">Clicks</div></div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="naano-summary-card"><div class="fw-bold fs-4">@leads.ToString("N0")</div><div class="text-muted small">Leads</div></div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="naano-summary-card"><div class="fw-bold fs-4">$@spend.ToString("N0")</div><div class="text-muted small">Spend</div></div>
+            </div>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-lg-7">
+                <div class="naano-profile-card mb-4">
+                    <h5 class="fw-semibold mb-3">Campaign Brief</h5>
+                    <p class="mb-2"><strong>Objective:</strong> @Model.Objective</p>
+                    <p class="mb-2"><strong>Audience:</strong> @Model.Audience</p>
+                    <p class="mb-0"><strong>Message:</strong> @Model.Message</p>
+                </div>
+            </div>
+            <div class="col-lg-5">
+                <div class="naano-profile-card">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h5 class="fw-semibold mb-0">Creators (@Model.CampaignCreators.Count)</h5>
+                    </div>
+                    @if (!Model.CampaignCreators.Any())
+                    {
+                        <p class="text-muted small mb-0">No creators added to this campaign yet.</p>
+                    }
+                    else
+                    {
+                        @foreach (var cc in Model.CampaignCreators)
+                        {
+                            <div class="d-flex align-items-center gap-2 naano-campaign-creator-row">
+                                <div class="naano-avatar naano-avatar-sm" style="background: linear-gradient(135deg,#7C3AED,#EC4899);">
+                                    @(string.Join("", cc.Creator!.Name.Split(' ', StringSplitOptions.RemoveEmptyEntries).Take(2).Select(p => p[0])).ToUpper())
+                                </div>
+                                <div class="flex-grow-1">
+                                    <a asp-controller="Creators" asp-action="Details" asp-route-id="@cc.CreatorId" class="fw-semibold text-decoration-none">@cc.Creator.Name</a>
+                                    <div class="text-muted small">@cc.Creator.Category</div>
+                                </div>
+                            </div>
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

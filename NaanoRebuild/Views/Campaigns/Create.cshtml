@@ -1,0 +1,82 @@
+@model CampaignCreateViewModel
+@{
+    ViewData["Title"] = "Create Campaign";
+}
+
+<section class="py-5">
+    <div class="container" style="max-width: 860px;">
+        <h1 class="fw-bold mb-1">Create a Campaign</h1>
+        <p class="text-muted mb-4">Set your campaign details and select the creators you'd like to work with.</p>
+
+        <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
+
+        <form method="post" asp-action="Create" class="naano-profile-card">
+            <input type="hidden" asp-for="PreselectedCreatorId" />
+
+            <div class="mb-3">
+                <label asp-for="Name" class="form-label fw-semibold">Campaign Name</label>
+                <input asp-for="Name" class="form-control" placeholder="e.g. Summer Wellness Launch" />
+                <span asp-validation-for="Name" class="text-danger small"></span>
+            </div>
+
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <label asp-for="Objective" class="form-label fw-semibold">Objective</label>
+                    <select asp-for="Objective" class="form-select">
+                        <option value="">Select an objective</option>
+                        <option>Brand Awareness</option>
+                        <option>Engagement</option>
+                        <option>Sales Conversion</option>
+                        <option>Lead Generation</option>
+                        <option>Product Launch</option>
+                    </select>
+                    <span asp-validation-for="Objective" class="text-danger small"></span>
+                </div>
+                <div class="col-md-6">
+                    <label asp-for="Budget" class="form-label fw-semibold">Budget (USD)</label>
+                    <input asp-for="Budget" type="number" step="0.01" class="form-control" placeholder="e.g. 15000" />
+                    <span asp-validation-for="Budget" class="text-danger small"></span>
+                </div>
+            </div>
+
+            <div class="mb-3 mt-3">
+                <label asp-for="Audience" class="form-label fw-semibold">Target Audience</label>
+                <input asp-for="Audience" class="form-control" placeholder="e.g. Health-conscious adults 25-40" />
+                <span asp-validation-for="Audience" class="text-danger small"></span>
+            </div>
+
+            <div class="mb-4">
+                <label asp-for="Message" class="form-label fw-semibold">Campaign Message</label>
+                <textarea asp-for="Message" class="form-control" rows="4" placeholder="What should creators communicate to their audience?"></textarea>
+                <span asp-validation-for="Message" class="text-danger small"></span>
+            </div>
+
+            <h5 class="fw-semibold mb-3">Select Creators</h5>
+            <div class="naano-creator-select-grid mb-4">
+                @foreach (var creator in Model.AvailableCreators)
+                {
+                    var isChecked = Model.SelectedCreatorIds.Contains(creator.Id);
+                    <label class="naano-creator-select-item @(isChecked ? "selected" : "")">
+                        <input type="checkbox" name="SelectedCreatorIds" value="@creator.Id" checked="@isChecked" class="form-check-input me-2" />
+                        <span class="fw-semibold">@creator.Name</span>
+                        <span class="text-muted small d-block">@creator.Category · @creator.Platform</span>
+                    </label>
+                }
+            </div>
+
+            <button type="submit" class="btn naano-btn-primary btn-lg px-4">
+                <i class="bi bi-rocket-takeoff me-1"></i> Launch Campaign
+            </button>
+        </form>
+    </div>
+</section>
+
+@section Scripts {
+    <script>
+        document.querySelectorAll('.naano-creator-select-item input[type="checkbox"]').forEach(function (cb) {
+            cb.addEventListener('change', function () {
+                this.closest('.naano-creator-select-item').classList.toggle('selected', this.checked);
+            });
+        });
+    </script>
+}
